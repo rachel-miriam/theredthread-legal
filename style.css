@@ -1,0 +1,108 @@
+/* The Red Thread — public legal pages. Mirrors the in-app dark theme. */
+:root {
+  --bg: #0a0d0f;
+  --surface: #111518;
+  --border: #2e3a42;
+  --red: #c0392b;
+  --redText: #e0594c;
+  --accent: #7eb8d4;
+  --textPrimary: #e8f0f5;
+  --textSecondary: #a8bcc8;
+  --textMuted: #6a8494;
+  --mono: ui-monospace, "SF Mono", "Courier New", monospace;
+  --serif: Georgia, "Times New Roman", serif;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--textPrimary);
+  font-family: var(--serif);
+  line-height: 1.65;
+  font-size: 17px;
+}
+
+.wrap {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 56px 22px 80px;
+}
+
+header { margin-bottom: 40px; }
+
+.the {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 8px;
+  color: var(--redText);
+  margin: 0 0 6px;
+}
+
+.wordmark {
+  font-family: var(--serif);
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin: 0;
+}
+
+.rule {
+  width: 48px;
+  height: 2px;
+  background: var(--red);
+  border-radius: 1px;
+  margin: 16px 0 0;
+}
+
+h1 {
+  font-family: var(--serif);
+  font-size: 30px;
+  font-weight: 700;
+  margin: 40px 0 4px;
+}
+
+.updated {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: var(--textMuted);
+  margin: 0 0 32px;
+}
+
+h2 {
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--textPrimary);
+  margin: 34px 0 10px;
+}
+
+p { color: var(--textSecondary); margin: 0 0 14px; }
+
+ul { color: var(--textSecondary); margin: 0 0 14px; padding-left: 22px; }
+li { margin: 0 0 6px; }
+
+a { color: var(--accent); }
+
+nav.docnav {
+  display: flex;
+  gap: 18px;
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 1px;
+  margin-bottom: 28px;
+}
+
+footer {
+  margin-top: 56px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--textMuted);
+}
+footer a { margin-right: 18px; }
