@@ -30,27 +30,43 @@
 <body>
   <div class="wrap">
     <div class="dot"></div>
-    <h1>Opening The Red Thread…</h1>
-    <p>Your email is confirmed. Tap below if the app doesn't open automatically.</p>
+    <h1 id="title">Opening The Red Thread…</h1>
+    <p id="msg">Your email is confirmed. Tap below if the app doesn't open automatically.</p>
     <a id="open" class="btn" href="redthread://">Open The Red Thread</a>
-    <div class="hint">Make sure The Red Thread is installed on this device.</div>
+    <div class="hint" id="hint">Make sure The Red Thread is installed on this device.</div>
   </div>
   <script>
-    // Supabase appends the session to this page as a URL fragment (#access_token=…,
-    // and &type=recovery for password resets). Forward the whole thing into the app
-    // via its custom scheme so the app can complete sign-in / recovery. Doing this
-    // through an https page (instead of redirecting straight to redthread://) means it
-    // also works from in-app browsers (Gmail, Outlook) that block scheme redirects.
     (function () {
-      var frag = window.location.hash && window.location.hash.length > 1
-        ? window.location.hash
+      // Supabase appends the result to this page — as a URL fragment on success
+      // (#access_token=…&refresh_token=…&type=signup|recovery) or as an error
+      // (#error=access_denied&error_code=otp_expired&…).
+      var raw = window.location.hash && window.location.hash.length > 1
+        ? window.location.hash.substring(1)
         : (window.location.search && window.location.search.length > 1
-            ? "#" + window.location.search.slice(1)
-            : "");
-      var target = "redthread://" + frag;
-      document.getElementById("open").setAttribute("href", target);
-      // Attempt to open the app automatically; the button is the fallback.
-      setTimeout(function () { window.location.href = target; }, 350);
+            ? window.location.search.substring(1) : "");
+      var params = new URLSearchParams(raw);
+
+      var title = document.getElementById("title");
+      var msg = document.getElementById("msg");
+      var btn = document.getElementById("open");
+      var hint = document.getElementById("hint");
+
+      // Expired / already-used / invalid link — never hand this to the app (there's
+      // nothing it can do but error); show a clear message here instead.
+      if (params.get("error") || params.get("error_code") || params.get("error_description")) {
+        title.textContent = "This link has expired";
+        msg.textContent = "Email links can only be used once and expire after a while. Open The Red Thread, go to sign in, and tap “Resend confirmation” — or sign up again to get a fresh link.";
+        btn.style.display = "none";
+        hint.style.display = "none";
+        return;
+      }
+
+      // Success: hand the session to the app via a QUERY string (a fragment gets
+      // percent-mangled through the custom-scheme hand-off and breaks routing).
+      var target = "redthread://?" + raw;
+      btn.setAttribute("href", target);
+      // Try to open automatically; the button is the user-gesture fallback.
+      setTimeout(function () { window.location.href = target; }, 400);
     })();
   </script>
 </body>
